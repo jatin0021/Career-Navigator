@@ -37,7 +37,7 @@ export function LearnerProgressBadge({
 
   return (
     <div
-      className={`flex justify-center h-[72px] w-[300px] items-center gap-[6px] rounded-full border px-[12px] py-[6px] text-[14px] font-medium ${config.className}`}
+      className={`flex justify-center h-[72px] w-full max-w-[320px] items-center gap-[6px] rounded-full border px-[12px] py-[6px] text-[14px] font-medium ${config.className}`}
       aria-disabled={status === "disabled"}
     >
       {status === "completed" ? (
