@@ -11,11 +11,28 @@ export function LearnerQuiz() {
   const [viewMode, setViewMode] = useState<"quiz" | "summary" | "review">(
     "quiz"
   );
+  const [isInfoSubmitted, setIsInfoSubmitted] = useState(false);
+  const [learnerName, setLearnerName] = useState("");
+  const [learnerEmail, setLearnerEmail] = useState("");
+  const [formError, setFormError] = useState("");
 
   const currentQuestion = learnerQuizQuestions[currentQuestionIndex];
   const isLastQuestion =
     currentQuestionIndex === learnerQuizQuestions.length - 1;
   const score = userAnswers.filter((a) => a.isCorrect).length;
+
+  const handleInfoSubmit = () => {
+    if (!learnerName.trim()) {
+      setFormError("Please enter your full name.");
+      return;
+    }
+    if (!learnerEmail.trim()) {
+      setFormError("Please enter your email address.");
+      return;
+    }
+    setFormError("");
+    setIsInfoSubmitted(true);
+  };
 
   const handleSubmit = () => {
     if (!selectedAnswer) {
@@ -52,14 +69,6 @@ export function LearnerQuiz() {
     setFeedback("");
   };
 
-  const handleRestart = () => {
-    setCurrentQuestionIndex(0);
-    setSelectedAnswer("");
-    setFeedback("");
-    setUserAnswers([]);
-    setViewMode("quiz");
-  };
-
   /*
    * IMPORTANT:
    * This class is intentionally shared by both the quiz
@@ -67,6 +76,99 @@ export function LearnerQuiz() {
    */
   const cardClassName =
     "w-full max-w-[640px] rounded-2xl border border-[#E2E8F0] bg-white p-3 sm:p-6 box-border overflow-hidden";
+
+  if (!isInfoSubmitted) {
+    return (
+      <section
+        className={cardClassName}
+        aria-labelledby="learner-info-heading"
+      >
+        <div className="flex flex-col gap-5 py-2">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <LearnerProgressBadge status="default" />
+            <h1
+              id="learner-info-heading"
+              className="text-xl font-semibold text-[#0F172A] sm:text-2xl"
+            >
+              Learner Information
+            </h1>
+            <p className="text-sm text-[#64748B]">
+              Please enter your details to start the Career Navigator Quiz.
+            </p>
+          </div>
+
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleInfoSubmit();
+            }}
+            className="flex flex-col gap-4 mt-2"
+          >
+            <div className="flex flex-col gap-1.5 text-left">
+              <label
+                htmlFor="learner-name"
+                className="text-sm font-medium text-[#334155]"
+              >
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="learner-name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                value={learnerName}
+                onChange={(event) => {
+                  setLearnerName(event.target.value);
+                  setFormError("");
+                }}
+                placeholder="e.g. Jane Doe"
+                className="rounded-lg border border-[#CBD5E1] px-4 py-2.5 text-base text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#4F46E5] focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5 text-left">
+              <label
+                htmlFor="learner-email"
+                className="text-sm font-medium text-[#334155]"
+              >
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="learner-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={learnerEmail}
+                onChange={(event) => {
+                  setLearnerEmail(event.target.value);
+                  setFormError("");
+                }}
+                placeholder="e.g. jane@example.com"
+                className="rounded-lg border border-[#CBD5E1] px-4 py-2.5 text-base text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#4F46E5] focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20"
+              />
+            </div>
+
+            {formError && (
+              <div
+                className="text-sm font-medium text-red-600"
+                role="alert"
+                aria-live="polite"
+              >
+                {formError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="mt-2 flex h-12 w-full items-center justify-center rounded-lg bg-[#4F46E5] px-5 py-3 text-base font-medium text-white transition-colors hover:bg-[#4338CA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+            >
+              Start Quiz
+            </button>
+          </form>
+        </div>
+      </section>
+    );
+  }
 
   if (viewMode === "review") {
     return (
@@ -114,20 +216,6 @@ export function LearnerQuiz() {
                 focus-visible:ring-offset-2"
             >
               Analyze Results
-            </button>
-
-            <button
-              type="button"
-              onClick={handleRestart}
-              className="w-full rounded-lg border border-[#CBD5E1] bg-white px-6 py-2.5 text-base font-medium text-[#475569]
-                transition-colors
-                hover:bg-[#F8FAFC]
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#4F46E5]
-                focus-visible:ring-offset-2"
-            >
-              Try Again
             </button>
           </div>
         </div>

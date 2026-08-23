@@ -14,7 +14,7 @@ interface LearnerProgressBadgeProps {
 const statusConfig = {
   default: {
     label: "Not Started",
-    className: "border-[#E2E8F0] bg-[#F1F5F9] text-[#64748B]",
+    className: "border-[#E2E8F0] bg-[#F1F5F9] text-[#475569]",
   },
   "in-progress": {
     label: "In Progress",
@@ -22,7 +22,7 @@ const statusConfig = {
   },
   completed: {
     label: "Completed",
-    className: "border-[#BBF7D0] bg-[#F0FDF4] text-[#16A34A]",
+    className: "border-[#BBF7D0] bg-[#F0FDF4] text-[#166534]",
   },
   disabled: {
     label: "Disabled",
@@ -41,7 +41,7 @@ export function LearnerProgressBadge({
       aria-disabled={status === "disabled"}
     >
       {status === "completed" ? (
-        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#16A34A] text-white">
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#166534] text-white">
           <Check size={11} strokeWidth={3} />
         </span>
       ) : (

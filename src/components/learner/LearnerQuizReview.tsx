@@ -90,7 +90,7 @@ export function LearnerQuizReview({
                   const isCorrect = q.correctAnswer === option;
 
                   let containerStyle =
-                    "border-[#E2E8F0] bg-white text-[#64748B] opacity-75";
+                    "border-[#E2E8F0] bg-white text-[#475569]";
                   let badge = null;
 
                   if (isSelected && isCorrect) {
@@ -127,7 +127,7 @@ export function LearnerQuizReview({
                       key={option}
                       className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl border p-3 sm:p-3.5 text-sm sm:text-base transition-colors ${containerStyle}`}
                     >
-                      <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                      <label className="flex items-start gap-2.5 min-w-0 flex-1">
                         <input
                           type="radio"
                           name={`review-q-${q.id}`}
@@ -135,10 +135,11 @@ export function LearnerQuizReview({
                           disabled
                           readOnly
                           aria-disabled="true"
+                          aria-label={option}
                           className="mt-0.5 h-4 w-4 shrink-0 accent-[#4F46E5] pointer-events-none"
                         />
                         <span className="leading-snug break-words">{option}</span>
-                      </div>
+                      </label>
 
                       {badge && (
                         <div className="pl-6 sm:pl-0 sm:shrink-0">
