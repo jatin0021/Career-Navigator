@@ -1,6 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -9,17 +8,17 @@ const corsHeaders = {
 // Heuristic-based section extraction from text
 function extractSectionsFromText(text: string): { sectionName: string; content: string }[] {
   const sectionPatterns = [
-    { pattern: /(?:^|\n)\s*(SUMMARY|PROFESSIONAL\s*SUMMARY|OBJECTIVE|CAREER\s*OBJECTIVE|PROFILE)\s*[:\-]?\s*\n/gi, name: 'Summary' },
-    { pattern: /(?:^|\n)\s*(EXPERIENCE|WORK\s*EXPERIENCE|PROFESSIONAL\s*EXPERIENCE|EMPLOYMENT\s*HISTORY|WORK\s*HISTORY)\s*[:\-]?\s*\n/gi, name: 'Experience' },
-    { pattern: /(?:^|\n)\s*(EDUCATION|ACADEMIC\s*BACKGROUND|QUALIFICATIONS|ACADEMIC\s*QUALIFICATIONS)\s*[:\-]?\s*\n/gi, name: 'Education' },
-    { pattern: /(?:^|\n)\s*(SKILLS|TECHNICAL\s*SKILLS|CORE\s*SKILLS|KEY\s*SKILLS|COMPETENCIES|CORE\s*COMPETENCIES)\s*[:\-]?\s*\n/gi, name: 'Skills' },
-    { pattern: /(?:^|\n)\s*(PROJECTS|KEY\s*PROJECTS|PERSONAL\s*PROJECTS|ACADEMIC\s*PROJECTS)\s*[:\-]?\s*\n/gi, name: 'Projects' },
-    { pattern: /(?:^|\n)\s*(CERTIFICATIONS?|LICENSES?|CREDENTIALS?|PROFESSIONAL\s*CERTIFICATIONS?)\s*[:\-]?\s*\n/gi, name: 'Certifications' },
-    { pattern: /(?:^|\n)\s*(ACHIEVEMENTS?|ACCOMPLISHMENTS?|AWARDS?|HONORS?)\s*[:\-]?\s*\n/gi, name: 'Achievements' },
-    { pattern: /(?:^|\n)\s*(LANGUAGES?|LANGUAGE\s*SKILLS?)\s*[:\-]?\s*\n/gi, name: 'Languages' },
-    { pattern: /(?:^|\n)\s*(INTERESTS?|HOBBIES?|ACTIVITIES?|EXTRACURRICULAR)\s*[:\-]?\s*\n/gi, name: 'Interests' },
-    { pattern: /(?:^|\n)\s*(REFERENCES?)\s*[:\-]?\s*\n/gi, name: 'References' },
-    { pattern: /(?:^|\n)\s*(CONTACT|CONTACT\s*INFORMATION|PERSONAL\s*DETAILS?|PERSONAL\s*INFORMATION)\s*[:\-]?\s*\n/gi, name: 'Contact Information' },
+    { pattern: /(?:^|\n)\s*(SUMMARY|PROFESSIONAL\s*SUMMARY|OBJECTIVE|CAREER\s*OBJECTIVE|PROFILE)\s*[:-]?\s*\n/gi, name: 'Summary' },
+    { pattern: /(?:^|\n)\s*(EXPERIENCE|WORK\s*EXPERIENCE|PROFESSIONAL\s*EXPERIENCE|EMPLOYMENT\s*HISTORY|WORK\s*HISTORY)\s*[:-]?\s*\n/gi, name: 'Experience' },
+    { pattern: /(?:^|\n)\s*(EDUCATION|ACADEMIC\s*BACKGROUND|QUALIFICATIONS|ACADEMIC\s*QUALIFICATIONS)\s*[:-]?\s*\n/gi, name: 'Education' },
+    { pattern: /(?:^|\n)\s*(SKILLS|TECHNICAL\s*SKILLS|CORE\s*SKILLS|KEY\s*SKILLS|COMPETENCIES|CORE\s*COMPETENCIES)\s*[:-]?\s*\n/gi, name: 'Skills' },
+    { pattern: /(?:^|\n)\s*(PROJECTS|KEY\s*PROJECTS|PERSONAL\s*PROJECTS|ACADEMIC\s*PROJECTS)\s*[:-]?\s*\n/gi, name: 'Projects' },
+    { pattern: /(?:^|\n)\s*(CERTIFICATIONS?|LICENSES?|CREDENTIALS?|PROFESSIONAL\s*CERTIFICATIONS?)\s*[:-]?\s*\n/gi, name: 'Certifications' },
+    { pattern: /(?:^|\n)\s*(ACHIEVEMENTS?|ACCOMPLISHMENTS?|AWARDS?|HONORS?)\s*[:-]?\s*\n/gi, name: 'Achievements' },
+    { pattern: /(?:^|\n)\s*(LANGUAGES?|LANGUAGE\s*SKILLS?)\s*[:-]?\s*\n/gi, name: 'Languages' },
+    { pattern: /(?:^|\n)\s*(INTERESTS?|HOBBIES?|ACTIVITIES?|EXTRACURRICULAR)\s*[:-]?\s*\n/gi, name: 'Interests' },
+    { pattern: /(?:^|\n)\s*(REFERENCES?)\s*[:-]?\s*\n/gi, name: 'References' },
+    { pattern: /(?:^|\n)\s*(CONTACT|CONTACT\s*INFORMATION|PERSONAL\s*DETAILS?|PERSONAL\s*INFORMATION)\s*[:-]?\s*\n/gi, name: 'Contact Information' },
   ];
 
   const sections: { sectionName: string; content: string; startIndex: number }[] = [];
@@ -82,7 +81,7 @@ function extractSkillsFromResume(text: string, sections: { sectionName: string; 
   if (skillsSection) {
     const skillItems = skillsSection.content.split(/[,;•|\n]/);
     skillItems.forEach(skill => {
-      const cleaned = skill.trim().replace(/[•\-\*]/g, '').trim();
+      const cleaned = skill.trim().replace(/[•*-]/g, '').trim();
       if (cleaned && cleaned.length > 1 && cleaned.length < 50) {
         skills.add(cleaned);
       }
